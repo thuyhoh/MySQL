@@ -9,7 +9,60 @@ mysql.exe -u <user> -p <password>
 ## II. Kiến trúc MySQL
 ## III. MySQL SQL
 ### 1. Data Type
+#### i. String Data Types
+|Data type|Description|
+|:--------|:----------|
+|CHAR(size)| Một chuỗi có độ dài CỐ ĐỊNH (có thể chứa chữ cái, số và ký tự đặc biệt). Tham số size chỉ định độ dài cột tính bằng ký tự - có thể từ 0 đến 255. Mặc định là 1|
+|VARCHAR(size)| Một chuỗi có độ dài BIẾN (có thể chứa chữ cái, số và ký tự đặc biệt). Tham số size chỉ định độ dài cột tối đa tính bằng ký tự - có thể từ 0 đến 65535|
+|BINARY(size)| Bằng với CHAR(), nhưng lưu trữ các chuỗi byte nhị phân. Tham số size chỉ định độ dài cột tính bằng byte. Mặc định là 1|
+|VARBINARY(size)| Bằng với VARCHAR(), nhưng lưu trữ các chuỗi byte nhị phân. Tham số size chỉ định độ dài cột tối đa tính bằng byte.|
+|TINYBLOB| Dành cho BLOB (Đối tượng nhị phân lớn). Độ dài tối đa: 255 byte|
+|TINYTEXT| Lưu trữ một chuỗi có độ dài tối đa 255 ký tự|
+|TEXT(size)| Lưu trữ một chuỗi có độ dài tối đa 65.535 byte|
+|BLOB(size)| Dành cho BLOB (Đối tượng nhị phân lớn). Lưu trữ tối đa 65.535 byte dữ liệu|
+|MEDIUMTEXT| Lưu trữ một chuỗi có độ dài tối đa 16.777.215 ký tự|
+|MEDIUMBLOB| Dành cho BLOB (Đối tượng nhị phân lớn). Lưu trữ tối đa 16.777.215 byte dữ liệu|
+|LONGTEXT| Lưu trữ một chuỗi có độ dài tối đa 4.294.967.295 ký tự|
+|LONGBLOB| Dành cho BLOB (Đối tượng nhị phân lớn). Lưu trữ tối đa 4.294.967.295 byte dữ liệu|
+|ENUM(val1, val2, val3, ...)| Một đối tượng chuỗi chỉ có thể có một giá trị, được chọn từ danh sách các giá trị khả thi. Bạn có thể liệt kê tối đa 65.535 giá trị trong danh sách ENUM. Nếu một giá trị được chèn vào không có trong danh sách, một giá trị trống sẽ được chèn vào. Các giá trị được sắp xếp theo thứ tự bạn nhập vào.|
+|SET(val1, val2, val3, ...)| Một đối tượng chuỗi có thể có 0 hoặc nhiều giá trị, được chọn từ danh sách các giá trị khả thi. Bạn có thể liệt kê tối đa 64 giá trị trong danh sách SET|
+#### ii. Numeric Data Types
+|Data type|Description|
+|:--------|:----------|
+|BIT(size)| Một kiểu giá trị bit. Số bit trên mỗi giá trị được chỉ định trong size. Tham số size có thể chứa giá trị từ 1 đến 64. Giá trị mặc định của size là 1.|
+|TINYINT(size)| Một số nguyên rất nhỏ. Phạm vi có dấu là từ -128 đến 127. Phạm vi không dấu là từ 0 đến 255. Tham số size chỉ định chiều rộng hiển thị tối đa (là 255)|
+|BOOL| Giá trị 0 được coi là sai, các giá trị khác 0 được coi là đúng.|
+|BOOLEAN| Bằng BOOL|
+|SMALLINT(size)| Một số nguyên nhỏ. Phạm vi có dấu là từ -32768 đến 32767. Phạm vi không dấu là từ 0 đến 65535. Tham số size chỉ định chiều rộng hiển thị tối đa (là 255)|
+|MEDIUMINT(size)| Một số nguyên trung bình. Phạm vi có dấu từ -8388608 đến 8388607. Phạm vi không dấu từ 0 đến 16777215. Tham số size chỉ định chiều rộng hiển thị tối đa (là 255)|
+|INT(size)| Một số nguyên trung bình. Phạm vi có dấu từ -2147483648 đến 2147483647. Phạm vi không dấu từ 0 đến 4294967295. Tham số size chỉ định chiều rộng hiển thị tối đa (là 255)|
+|INTEGER(size)| Bằng INT(size)|
+|BIGINT(size)| Một số nguyên lớn. Phạm vi có dấu là từ -9223372036854775808 đến 9223372036854775807. Phạm vi không dấu là từ 0 đến 18446744073709551615. Tham số size chỉ định chiều rộng hiển thị tối đa (là 255)|
+|FLOAT(size, d)| Một số dấu phẩy động. Tổng số chữ số được chỉ định trong size. Số chữ số sau dấu thập phân được chỉ định trong tham số d. Cú pháp này đã lỗi thời trong MySQL 8.0.17 và sẽ bị loại bỏ trong các phiên bản MySQL tương lai|
+|FLOAT(p)| Một số dấu phẩy động. MySQL sử dụng giá trị p để xác định nên sử dụng FLOAT hay DOUBLE cho kiểu dữ liệu kết quả. Nếu p từ 0 đến 24, kiểu dữ liệu sẽ là FLOAT(). Nếu p từ 25 đến 53, kiểu dữ liệu sẽ là DOUBLE()|
+|DOUBLE(size, d)| Một số dấu phẩy động kích thước thông thường. Tổng số chữ số được chỉ định trong size. Số chữ số sau dấu thập phân được chỉ định trong tham số d|
+|DOUBLE PRECISION(size, d)| |
+|DECIMAL(size, d)| Một số dấu phẩy động chính xác. Tổng số chữ số được chỉ định trong size. Số chữ số sau dấu thập phân được chỉ định trong tham số d. Số tối đa của size là 65. Số tối đa của d là 30. Giá trị mặc định của size là 10. Giá trị mặc định của d là 0.|
+|DEC(size, d)| Bằng với DECIMAL(size,d)|
+#### iii. Date and Time Data Types
+|Data type|Description|
+|:--------|:----------|
+|DATE| Một ngày. Định dạng: YYYY-MM-DD. Phạm vi được hỗ trợ là từ '1000-01-01' đến '9999-12-31'|
+|DATETIME(fsp)| Một tổ hợp ngày và giờ. Định dạng: YYYY-MM-DD hh:mm:ss. Phạm vi được hỗ trợ là từ '1000-01-01 00:00:00' đến '9999-12-31 23:59:59'. Thêm DEFAULT và ON UPDATE vào định nghĩa cột để tự động khởi tạo và cập nhật theo ngày và giờ hiện tại|
+|TIMESTAMP(fsp)| Một dấu thời gian. Giá trị TIMESTAMP được lưu trữ dưới dạng số giây kể từ kỷ nguyên Unix ('1970-01-01 00:00:00' UTC). Định dạng: YYYY-MM-DD hh:mm:ss. Phạm vi được hỗ trợ là từ '1970-01-01 00:00:01' UTC đến '2038-01-09 03:14:07' UTC. Tự động khởi tạo và cập nhật theo ngày giờ hiện tại có thể được chỉ định bằng cách sử dụng DEFAULT CURRENT_TIMESTAMP và ON UPDATE CURRENT_TIMESTAMP trong cột definition|
+|TIME(fsp)| Thời gian. Định dạng: hh:mm:ss. Phạm vi được hỗ trợ là từ '-838:59:59' đến '838:59:59'|
+|YEAR| Năm ở định dạng bốn chữ số. Các giá trị được phép ở định dạng bốn chữ số: 1901 đến 2155 và 0000.|
 ### 2. Comment
+#### i. Comment trên một dòng
+```sql
+-- commnet
+```
+#### ii. Comment trên nhiều dòng
+``` sql
+/*
+    comment
+*/
+```
 ### 3. SELECT
 - SELECT thường dùng để chọn dữ liệu từ database 
 - Hiển thị một phần dữ liệu
@@ -27,46 +80,49 @@ SELECT <feild ...> FROM <Table_name>
 WHERE <condition ...>;
 ```
 ### 5. Operators
-#### Arithmetic Operators
-#### Bitwise Operators
-#### Comparison Operators
-#### Compound Operators
-#### Logical Operators
-
-#### Toán tử so sánh
+#### i. Arithmetic Operators
 |Operator|Description|
 |:-------|:----------|
-|=|	Bằng	|
-|>|	lớn hơn	|
-|<|	nhỏ hơn	|
-|>=|	lớn hơn hoắc bằng	|
-|<=|	nhỏ hơn hoặc bằng	|
-|<>|	khác|
-
-#### Toán tử quan hệ
+|   +    |   Cộng    |
+|   -    |   Trừ     |
+|   *    |   Nhân    |
+|   /    |   Chia    |
+|   %    |   Lấy dư  |
+#### ii. Bitwise Operators
 |Operator|Description|
 |:-------|:----------|
-|AND| hiển thị bảng ghi nếu tất cả điều kiện được phân tách bằng AND đều đúng  | 
-|OR|hiển thị bảng ghi nếu một trong số điều kiện được phân tách bằng OR đều đúng|
-|NOT|hiển thị một bản ghi nếu điều kiện KHÔNG ĐÚNG|
+|   &    |  AND      |
+|   |    |  OR       |
+|   ^    |  XOR      |
+#### iii. Comparison Operators
+|Operator|Description|
+|:-------|:----------|
+|   =   |	Bằng	 |
+|   >   |	lớn hơn	 |
+|   <   |	nhỏ hơn	 |
+|   >=  |	lớn hơn hoắc bằng	|
+|   <=  |	nhỏ hơn hoặc bằng	|
+|   <>  |	khác     |
+#### iv. Compound Operators
+|Operator|Description|
+|:-------|:----------|
+|   +=   |  Cộng bằng|
+|   -=   |  Trừ bằng |
+|   *=   |  Nhân bằng|
+|   /=   |  Chia bằng|
+|   %=   |  Lấy phần dư bằng|
+|   &=   |  Phép AND trên bit bằng|
+|   ^-=  |  Phép loại trừ bit bằng|
+|   |*=  |  Phép OR trên bit bằng |
+#### v. Logical Operators
+##### i. AND OR NOT
+|Operator|Description|
+|:-------|:----------|
+|AND|	hiển thị bảng ghi nếu tất cả điều kiện được phân tách bằng AND đều đúng|
+|OR	|hiển thị bảng ghi nếu một trong số điều kiện được phân tách bằng OR đều đúng|
+|NOT|	hiển thị một bản ghi nếu điều kiện KHÔNG ĐÚNG|
 
-#### IN
-- IN Chỉ định nhiều giá trị có thể có cho một cột
-``` sql
-SELECT column_name(s)
-FROM table_name
-WHERE column_name IN (value1, value2, ...);
-```
-
-#### BETWEEN
-- BETWEEN chỉ định giá trị giữa dải	
-``` sql
-SELECT column_name(s)
-FROM table_name
-WHERE column_name BETWEEN value1 AND value2;
-```
-
-#### LIKE
+##### ii. LIKE
 - LIKE được tìm kiếm một mẫu đã được chỉ định trong một trường.
 ``` sql
 SELECT column1, column2, ...
@@ -85,8 +141,58 @@ WHERE columnN LIKE pattern;
 | '%or%'| Tìm bất kỳ giá trị nào có "or" ở bất cứ vị trí nào |
 | '_r%' | Tìm bất cứ giá trị nào có "r" ở vị trí thứ 2 |
 | 'a_%' | Tìm bất kỳ giá trị nào bắt đầu bằng "a" và có độ dài ít nhất 2 ký tự |
-| 'a__%' |Tìm bất kỳ giá trị nào bắt đầu bằng "a" và có độ dài ít nhất 3 ký tự|
-| 'a%o' |Tìm bất kỳ giá trị nào bắt đầu bằng "a" và kết thúc bằng "o"|
+| 'a__%' |Tìm bất kỳ giá trị nào bắt đầu bằng "a" và có độ dài ít nhất 3 ký tự |
+| 'a%o' |Tìm bất kỳ giá trị nào bắt đầu bằng "a" và kết thúc bằng "o" |
+
+##### iii. IN
+- IN Chỉ định nhiều giá trị có thể có cho một cột
+``` sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+```
+
+##### iv. BETWEEN
+- BETWEEN chỉ định giá trị giữa dải	
+``` sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+```
+
+##### v. ANY
+- Toán tử ANY: có nghĩa là điều kiện sẽ đúng nếu phép toán đúng với bất kỳ giá trị nào trong phạm vi.
+    - trả về kết quả là một giá trị boolean
+    - trả về TRUE nếu BẤT KỲ giá trị truy vấn con nào thỏa mãn điều kiện
+``` sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator ANY
+  (SELECT column_name
+  FROM table_name
+  WHERE condition);
+```
+##### vi. ALL
+- Toán tử ALL: nghĩa là điều kiện sẽ chỉ đúng nếu phép toán đúng với tất cả các giá trị trong phạm vi.
+
+    - trả về giá trị boolean làm kết quả
+    - trả về TRUE nếu TẤT CẢ các giá trị truy vấn con đáp ứng điều kiện
+    - được sử dụng với các câu lệnh SELECT, WHERE và HAVING
+``` sql
+SELECT ALL column_name(s)
+FROM table_name
+WHERE condition;
+```
+
+##### vii. EXISTS
+- EXISTS được sử dụng để kiểm tra sự tồn tại của bất kỳ bản ghi nào trong một truy vấn con.
+- EXISTS trả về TRUE nếu truy vấn con trả về một hoặc nhiều bản ghi.
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE EXISTS
+(SELECT column_name FROM table_name WHERE condition);
+```
 
 ### 6. ORDER BY
 - ORDER BY dùng để sắp xếp dữ liệu  tăng/giảm dần trong bảng
@@ -240,16 +346,6 @@ HAVING condition
 ORDER BY column_name(s);
 ```
 
-### 17. EXISTS
-- EXISTS được sử dụng để kiểm tra sự tồn tại của bất kỳ bản ghi nào trong một truy vấn con.
-- EXISTS trả về TRUE nếu truy vấn con trả về một hoặc nhiều bản ghi.
-```sql
-SELECT column_name(s)
-FROM table_name
-WHERE EXISTS
-(SELECT column_name FROM table_name WHERE condition);
-```
-
 ## IV. MySQL Database
 ### 1. Database
 #### i. CREATE DATABASE
@@ -314,7 +410,44 @@ CREATE TABLE Persons (
 ```
 ### 4. UNIQUE
 - Ràng buộc UNIQUE đảm bảo rằng tất cả các giá trị trong một cột đều khác nhau.
-
+#### i. Tạo UNIQUE
+##### Tạo UNIQUE trong khi tạo bảng
+- Tạo UNIQUE trên một cột
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    UNIQUE (ID)
+);
+```
+- Tạo UNIQUE trên nhiều cột
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CONSTRAINT UC_Person UNIQUE (ID,LastName)
+);
+```
+##### Tạo UNIQUE trên bảng có sẵn
+- Tạo UNIQUE trên một cột
+``` sql
+ALTER TABLE Persons
+ADD UNIQUE (ID);
+```
+- Tạo UNIQUE trên nhiều cột
+``` sql
+ALTER TABLE Persons
+ADD CONSTRAINT UC_Person UNIQUE (ID,LastName);
+```
+#### ii. Xoá UNIQUE
+``` sql
+ALTER TABLE Persons
+DROP INDEX UC_Person;
+```
 ### 5. PRIMARY KEY
 - Giới thiệu chung
     - Ràng buộc PRIMARY KEY xác định duy nhất mỗi bản ghi trong một bảng.
@@ -362,8 +495,45 @@ DROP PRIMARY KEY;
 - FOREIGN KEY được sử dụng để ngăn chặn các hành động phá hủy liên kết giữa các bảng.
 - FOREIGN KEY là một trường (hoặc tập hợp các trường) trong một bảng, tham chiếu đến KHÓA CHÍNH trong một bảng khác.
 - Bảng có FOREIGN KEY được gọi là bảng con, và bảng có PRIMARY KEY  được gọi là bảng tham chiếu hoặc bảng cha.
-
-Hãy xem xét hai bảng sau:
+#### i. Tạo FOREIGN KEY trong khi tạo bảng
+- Tạo FOREIGN KEY trên một cột
+```sql
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+```
+- Tạo FOREIGN KEY trên nhiều cột
+``` sql
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID)
+    REFERENCES Persons(PersonID)
+);
+```
+#### ii. Tạo FOREIGN KEY trong một bảng có sẵn
+- Tạo FOREIGN KEY trên một cột
+``` sql
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+```
+- Tạo FOREIGN KEY trên nhiều cột
+``` sql
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PersonOrder
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+```
+#### iii. Xoá FOREIGN KEY
+``` sql
+ALTER TABLE Orders
+DROP FOREIGN KEY FK_PersonOrder;
+```
 ### 7. Check
 - CHECK được sử dụng để giới hạn phạm vi giá trị có thể được đặt trong một cột/bảng.
 #### i. CHECK Trong khi tạo bảng
