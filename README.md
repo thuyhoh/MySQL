@@ -4,42 +4,12 @@
 - run MySQL 
 ``` bash
 # ~\MySQL\bin>
-mysql.exe -u<user> -p<password>
+mysql.exe -u <user> -p <password>
 ```
 ## II. Kiến trúc MySQL
-## III. MySQL command line
-### 1. Database
-#### CREATE DATABASE
-``` sql
-CREATE DATABASE <Database_name>;
-```
-#### DROP DATABASE
-``` sql
-DROP DATABASE <Database_name>;
-```
-#### USE DATABASE
-``` sql
-USE <Database_name>
-```
-### 2. TABLE
-#### Tạo bảng 
-- Tạo bảng trống
-``` sql
-CREATE TABLE <Table_name>;
-```
-- Tạo bảng lấy dữ lệu từ bản khác
-``` sql
-CREATE TABLE <Table_new> 
-AS SELECT <feild> from <Table_name>;
-```
-#### Xoá bảng
-```sql
-DROP TABLE table_name;
-```
-#### Mô tả các thông tin của bảng
-``` sql
-DESC <Table_name>;
-```
+## III. MySQL SQL
+### 1. Data Type
+### 2. Comment
 ### 3. SELECT
 - SELECT thường dùng để chọn dữ liệu từ database 
 - Hiển thị một phần dữ liệu
@@ -57,6 +27,12 @@ SELECT <feild ...> FROM <Table_name>
 WHERE <condition ...>;
 ```
 ### 5. Operators
+#### Arithmetic Operators
+#### Bitwise Operators
+#### Comparison Operators
+#### Compound Operators
+#### Logical Operators
+
 #### Toán tử so sánh
 |Operator|Description|
 |:-------|:----------|
@@ -75,7 +51,7 @@ WHERE <condition ...>;
 |NOT|hiển thị một bản ghi nếu điều kiện KHÔNG ĐÚNG|
 
 #### IN
-- ``IN`` Chỉ định nhiều giá trị có thể có cho một cột
+- IN Chỉ định nhiều giá trị có thể có cho một cột
 ``` sql
 SELECT column_name(s)
 FROM table_name
@@ -128,7 +104,20 @@ ORDER BY <feild ...> <ASC|DESC>;
 INSERT INTO table_name (feild1, feild2, feild3, ...)
 VALUES (value1, value2, value3, ...);
 ```
-
+#### INSERT INTO SELECT
+- Câu lệnh INSERT INTO SELECT sao chép dữ liệu từ một bảng và chèn vào một bảng khác.
+- Câu lệnh INSERT INTO SELECT yêu cầu kiểu dữ liệu trong bảng nguồn và bảng đích phải khớp nhau.
+``` sql
+INSERT INTO table2
+SELECT * FROM table1
+WHERE condition;
+```
+``` sql
+INSERT INTO table2 (column1, column2, column3, ...)
+SELECT column1, column2, column3, ...
+FROM table1
+WHERE condition;
+```
 ### 8. NULL
 - NULL là trường không có giá trị. Được dùng trong các điều kiện so sánh 
 ``` sql
@@ -168,7 +157,7 @@ SELECT column_name AS alias_name
 FROM table_name;
 ```
 
-### 13. Joins
+### 13. JOIN
 - JOIN được sử dụng để kết hợp các hàng từ hai hoặc nhiều bảng, dựa trên cột có liên quan giữa chúng.
 - các loại JOIN được hỗ trợ trên MySQL
 
@@ -260,5 +249,204 @@ FROM table_name
 WHERE EXISTS
 (SELECT column_name FROM table_name WHERE condition);
 ```
+
+## IV. MySQL Database
+### 1. Database
+#### i. CREATE DATABASE
+``` sql
+CREATE DATABASE <Database_name>;
+```
+#### ii. DROP DATABASE
+``` sql
+DROP DATABASE <Database_name>;
+```
+#### iii. USE DATABASE
+``` sql
+USE <Database_name>
+```
+### 2. TABLE
+#### i. CREATE TABLE
+- Tạo bảng trống
+``` sql
+CREATE TABLE <Table_name>;
+```
+- Tạo bảng lấy dữ lệu từ bản khác
+``` sql
+CREATE TABLE <Table_new> 
+AS SELECT <feild> from <Table_name>;
+```
+#### ii. DROP TABLE
+```sql
+DROP TABLE table_name;
+```
+#### iii. DESC TABLE
+- Hiển thị mô tả thông tin của bảng
+``` sql
+DESC <Table_name>;
+```
+#### iv. ALTER TABLE
+- ALTER TABLE được sử dụng để thêm, xóa hoặc sửa đổi các cột trong một bảng hiện có.
+- ALTER TABLE cũng được sử dụng để thêm và xóa các ràng buộc khác nhau trên một bảng hiện có.
+``` sql
+ALTER TABLE table_name
+ADD column_name datatype;
+```
+#### v. constraint
+- 
+``` sql
+CREATE TABLE table_name (
+    column1 datatype constraint,
+    column2 datatype constraint,
+    column3 datatype constraint,
+    ....
+);
+```
+### 3. NOT NULL
+- Ràng buộc NOT NULL buộc một cột KHÔNG chấp nhận giá trị NULL.
+- Ràng buộc này buộc một trường luôn chứa một giá trị, nghĩa là bạn không thể chèn bản ghi mới hoặc cập nhật bản ghi mà không thêm giá trị vào trường này.
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Age int
+);
+```
+### 4. UNIQUE
+- Ràng buộc UNIQUE đảm bảo rằng tất cả các giá trị trong một cột đều khác nhau.
+
+### 5. PRIMARY KEY
+- Giới thiệu chung
+    - Ràng buộc PRIMARY KEY xác định duy nhất mỗi bản ghi trong một bảng.
+    - Khóa chính phải chứa các giá trị DUY NHẤT và không thể chứa các giá trị NULL.
+    - Một bảng chỉ có thể có MỘT khóa chính; và trong bảng, khóa chính này có thể bao gồm một hoặc nhiều cột.
+#### i. Tạo khoá chính
+##### Tạo PRIMARY KEY trong khi tạo bảng
+- Tạo một khoá chính
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (ID)
+);
+```
+- Tạo một khoá chính từ 2/nhiều cột
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+);
+```
+##### Tạo PRIMARY KEY từ bảng có sẵn
+- Tạo một khoá chính
+```sql
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+```
+- Tạo một khoá chính từ 2/nhiều cột
+```sql
+ALTER TABLE Persons
+ADD CONSTRAINT PK_Person PRIMARY KEY (ID);
+```
+#### ii. Xoá khoá
+``` sql
+ALTER TABLE Persons
+DROP PRIMARY KEY;
+```
+### 6. FOREIGN KEY
+- FOREIGN KEY được sử dụng để ngăn chặn các hành động phá hủy liên kết giữa các bảng.
+- FOREIGN KEY là một trường (hoặc tập hợp các trường) trong một bảng, tham chiếu đến KHÓA CHÍNH trong một bảng khác.
+- Bảng có FOREIGN KEY được gọi là bảng con, và bảng có PRIMARY KEY  được gọi là bảng tham chiếu hoặc bảng cha.
+
+Hãy xem xét hai bảng sau:
+### 7. Check
+- CHECK được sử dụng để giới hạn phạm vi giá trị có thể được đặt trong một cột/bảng.
+#### i. CHECK Trong khi tạo bảng
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255),
+    CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+);
+```
+#### ii. CHECK Trong khi có bảng đã tồn tại
+``` sql
+ALTER TABLE Persons
+ADD CONSTRAINT CHK_PersonAge CHECK (Age>=18 AND City='Sandnes');
+```
+#### iii. DROP a CHECK Constraint 
+```sql 
+ALTER TABLE Persons
+DROP CHECK CHK_PersonAge;
+```
+### 8. Default
+- DEFAULT được sử dụng để đặt giá trị mặc định cho một cột.
+- Giá trị mặc định sẽ được thêm vào tất cả các bản ghi mới, nếu không có giá trị nào khác được chỉ định.
+#### i. DEFAULT trong khi tạo bảng
+``` sql
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Sandnes'
+);
+```
+#### ii. DEFAULT Trong khi có bảng đã tồn tại
+``` sql
+ALTER TABLE Persons
+ALTER City SET DEFAULT 'Sandnes';
+```
+#### iii. Xoá DEFAULT
+``` sql
+ALTER TABLE Persons
+ALTER City DROP DEFAULT;
+```
+
+### 9. INDEX
+#### i. Tạo INDEX trên cột
+- Tạo INDEX trên một bảng. Cho phép các giá trị trùng lặp
+``` sql
+CREATE INDEX index_name
+ON table_name (column1, column2, ...);
+```
+- Tạo INDEX duy nhất trên một bảng. Không cho phép các giá trị trùng lặp
+``` sql
+CREATE UNIQUE INDEX index_name
+ON table_name (column1, column2, ...);
+```
+#### ii. Xoá INDEX
+``` sql
+ALTER TABLE table_name
+DROP INDEX index_name;
+```
+### 10. AUTO_INCREMENT
+- AUTO_INCREMENT để thực hiện tính năng tự động tăng.
+- Theo mặc định, giá trị khởi đầu của AUTO_INCREMENT là 1 và sẽ tăng thêm 1 cho mỗi bản ghi mới.
+```sql
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
+```
+``` sql
+ALTER TABLE Persons AUTO_INCREMENT=100;
+```
+
+
+
+
+
 
 ## Tối ưu hoá 
